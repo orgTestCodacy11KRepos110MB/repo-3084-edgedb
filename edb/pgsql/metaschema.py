@@ -5253,7 +5253,7 @@ def _generate_sql_information_schema() -> List[dbops.Command]:
             relpages,
             reltuples,
             relallvisible,
-            reltoastrelid,
+            NULL::pg_catalog.oid as reltoastrelid,
             relhasindex,
             relisshared,
             relpersistence,
