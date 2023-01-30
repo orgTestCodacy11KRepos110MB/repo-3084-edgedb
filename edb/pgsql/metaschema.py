@@ -5398,6 +5398,30 @@ def _generate_sql_information_schema() -> List[dbops.Command]:
         WHERE datname LIKE '%_edgedb'
         """,
         ),
+        dbops.View(
+            name=("edgedbsql", "pg_stats"),
+            query="""
+        SELECT n.nspname AS schemaname,
+            c.relname AS tablename,
+            a.attname,
+            s.stainherit AS inherited,
+            s.stanullfrac AS null_frac,
+            s.stawidth AS avg_width,
+            s.stadistinct AS n_distinct,
+            NULL::real[] AS most_common_vals,
+            s.stanumbers1 AS most_common_freqs,
+            s.stanumbers1 AS histogram_bounds,
+            s.stanumbers1[1] AS correlation,
+            NULL::real[] AS most_common_elems,
+            s.stanumbers1 AS most_common_elem_freqs,
+            s.stanumbers1 AS elem_count_histogram
+        FROM pg_statistic s
+        JOIN pg_class c ON c.oid = s.starelid
+        JOIN pg_attribute a ON c.oid = a.attrelid and a.attnum = s.staattnum
+        LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
+        WHERE FALSE
+        """,
+        ),
     ]
 
     def construct_pg_view(table_name: str, columns: List[str]) -> dbops.View:
