@@ -1081,6 +1081,21 @@ class TestEdgeQLSelect(tb.BaseDocTest):
         SELECT ('a')::pg_catalog.bpchar, ('a')::pg_catalog.char
         """
 
+    def test_sql_parse_query_51(self):
+        """
+        SELECT ARRAY ((SELECT c FROM a)) FROM b
+        """
+
+    def test_sql_parse_query_52(self):
+        """
+        SELECT GREATEST(x, y, 0), LEAST(x, y, 100) FROM b
+        """
+
+    def test_sql_parse_query_53(self):
+        """
+        SELECT * FROM b WHERE (c ILIKE 'blah%' COLLATE collation_name)
+        """
+
     # The transaction_* settings are always on transaction level
 
     def test_sql_parse_transaction_29(self):

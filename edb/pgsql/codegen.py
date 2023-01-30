@@ -1058,5 +1058,10 @@ class SQLSourceGenerator(codegen.SourceGenerator):
         if node.with_no_data:
             self.write(' WITH NO DATA')
 
+    def visit_MinMaxExpr(self, node: pgast.MinMaxExpr) -> None:
+        self.write(node.op)
+        self.write('(')
+        self.visit_list(node.args)
+        self.write(')')
 
 generate_source = SQLSourceGenerator.to_source
