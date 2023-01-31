@@ -1095,7 +1095,19 @@ class TestEdgeQLSelect(tb.BaseDocTest):
         """
         SELECT * FROM b WHERE (c ILIKE 'blah%' COLLATE collation_name)
         """
-    
+
+    def test_sql_parse_query_54(self):
+        """
+        SELECT x IS DISTINCT FROM y
+        FROM b
+        """
+
+    def test_sql_parse_query_55(self):
+        """
+        SELECT x IS NOT DISTINCT FROM y
+        FROM b
+        """
+
     def test_sql_parse_lock_01(self):
         '''
         LOCK TABLE films IN ACCESS SHARE MODE
